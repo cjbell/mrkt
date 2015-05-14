@@ -31,6 +31,33 @@ describe Mrkt::CrudLeads do
     it { is_expected.to eq(response_stub) }
   end
 
+  describe '#get_leads_in_list' do
+    let(:response_stub) do
+      {
+        requestId: 'c245#14cd6830ae2',
+        result: [
+          {
+            id: 1,
+            firstName: 'John',
+            lastName: 'Snow',
+            email: 'sample@exmaple.com',
+            updatedAt: '2015-04-20 05:46:13',
+            createdAt: '2015-04-20 05:46:13'
+          }
+        ],
+        success: true
+      }
+    end
+    subject { client.get_leads_in_list(123) }
+
+    before do
+      stub_request(:get, "https://#{host}/rest/v1/list/#{123}/leads.json")
+        .to_return(json_stub(response_stub))
+    end
+
+    it { is_expected.to eq(response_stub) }
+  end
+
   describe '#createupdate_leads' do
     let(:leads) do
       [
